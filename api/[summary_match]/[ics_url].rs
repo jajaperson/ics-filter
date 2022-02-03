@@ -2,11 +2,11 @@ use http::StatusCode;
 use std::error::Error;
 use vercel_lambda::{error::VercelError, lambda, IntoResponse, Request, Response};
 
-fn handler(_: Request) -> Result<impl IntoResponse, VercelError> {
+fn handler(req: Request) -> Result<impl IntoResponse, VercelError> {
     let response = Response::builder()
         .status(StatusCode::OK)
         .header("Content-Type", "text/plain")
-        .body("Hello World")
+        .body(String::from(request.uri().query().unwrap()))
         .expect("Internal Server Error");
 
     Ok(response)
