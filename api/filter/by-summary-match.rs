@@ -5,7 +5,7 @@ use vercel_lambda::{error::VercelError, lambda, IntoResponse, Request, Response}
 fn handler(req: Request) -> Result<impl IntoResponse, VercelError> {
     let response = Response::builder()
         .status(StatusCode::OK)
-        .header("Content-Type", "text/plain")
+        .header("Content-Type", "text/calendar")
         .body(ics_filter::filter_from_query(req.uri.query().unwrap()))
         .expect("Internal Server Error");
 
