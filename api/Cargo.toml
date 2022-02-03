@@ -11,6 +11,3 @@ vercel_lambda = "*"
 path = "../filter-lib"
 version = "0.1"
 
-[lib]
-name = "util"
-path = "_util.rs"
