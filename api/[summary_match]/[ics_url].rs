@@ -6,7 +6,7 @@ fn handler(req: Request) -> Result<impl IntoResponse, VercelError> {
     let response = Response::builder()
         .status(StatusCode::OK)
         .header("Content-Type", "text/plain")
-        .body(String::from(request.uri().query().unwrap()))
+        .body(String::from(req.uri().query().unwrap()))
         .expect("Internal Server Error");
 
     Ok(response)
