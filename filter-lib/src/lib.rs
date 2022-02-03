@@ -1,4 +1,28 @@
-use std::str::Lines;
+use std::{collections::HashMap, str::Lines};
+
+use querystring::querify;
+use urlencoding::decode;
+
+pub fn filter_from_query(query: &str) -> String {
+    let params: HashMap<String, String> = querify(query)
+        .into_iter()
+        .map(|(k, v)| (k.to_owned(), decode(v).unwrap().into_owned())) // bad unwrap
+        .collect();
+
+    let ics_url = params.get("ics_url").unwrap().trim();
+    let summary_match = params.get("summary_match").unwrap();
+
+    let source = {
+        let mut response = chttp::get(ics_url).expect("valid url");
+        let body = response.body_mut().text().unwrap();
+
+        body
+    };
+
+    let result = filter_events_by_name(&source, &summary_match);
+
+    result
+}
 
 pub fn filter_events_by_name(ical: &str, substr: &str) -> String {
     let mut result_lines: Vec<String> = Vec::new();
